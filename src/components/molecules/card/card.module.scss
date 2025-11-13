@@ -1,0 +1,12 @@
+@import '../../../styles/variables.scss';
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    column-gap: $spacing-sm;
+    border-radius: $border-radius-lg;
+    border: 1px solid $border-color;
+    padding: $spacing-md $spacing-lg;
+    background-color: $bg-color;
+    width: 100%;
+}
