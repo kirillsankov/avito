@@ -1,0 +1,13 @@
+@use '../../../styles/variables' as *;
+
+.priceRange {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+}
+
+.priceSeparator {
+    color: $secondary-color;
+    font-weight: 500;
+}
+

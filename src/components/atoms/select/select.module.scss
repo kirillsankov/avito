@@ -1,0 +1,18 @@
+@use '../../../styles/variables' as *;
+
+.select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-sm;
+    font-size: 14px;
+    background: $bg-color;
+    cursor: pointer;
+    transition: border-color 0.2s;
+
+    &:focus {
+        outline: none;
+        border-color: $primary-color;
+    }
+}
+

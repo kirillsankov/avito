@@ -1,0 +1,32 @@
+@use '../../../styles/variables' as *;
+@use 'sass:color';
+
+.filters {
+    background: $bg-color;
+    border-radius: $border-radius-md;
+    padding: $spacing-lg;
+    margin-bottom: $spacing-lg;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: $spacing-lg;
+    color: $text-color;
+}
+
+.filterGroup {
+    margin-bottom: $spacing-lg;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.resetButton {
+    margin-top: $spacing-lg;
+    padding-top: $spacing-lg;
+    border-top: 1px solid $border-color-light;
+}
+

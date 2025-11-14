@@ -1,7 +1,8 @@
 @use '../../../styles/variables' as *;
 
-.listCard {
+.checkboxGroup {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: $spacing-md;
 }
+

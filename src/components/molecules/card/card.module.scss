@@ -1,12 +1,89 @@
-@import '../../../styles/variables.scss';
+@use '../../../styles/variables' as *;
+@use 'sass:color';
+
 .card {
     display: flex;
     justify-content: space-between;
-    align-items: end;
-    column-gap: $spacing-sm;
+    align-items: center;
+    gap: $spacing-lg;
     border-radius: $border-radius-lg;
     border: 1px solid $border-color;
-    padding: $spacing-md $spacing-lg;
+    padding: $spacing-lg;
     background-color: $bg-color;
     width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.content {
+    display: flex;
+    gap: $spacing-md;
+    flex: 1;
+    min-width: 0;
+}
+
+.imageWrapper {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: $border-radius-md;
+    overflow: hidden;
+    background-color: $border-color-light;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    flex: 1;
+    min-width: 0;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-color;
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: 700;
+    color: $primary-color;
+    margin: $spacing-xs 0;
+}
+
+.meta {
+    display: flex;
+    gap: $spacing-md;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: auto;
+}
+
+.category {
+    font-size: 14px;
+    color: $secondary-color;
+    padding: $spacing-xs $spacing-sm;
+    background-color: $border-color-light;
+    border-radius: $border-radius-sm;
+}
+
+.date {
+    font-size: 14px;
+    color: $secondary-color;
 }

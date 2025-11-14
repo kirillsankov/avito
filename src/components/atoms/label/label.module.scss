@@ -1,0 +1,10 @@
+@use '../../../styles/variables' as *;
+
+.label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: $spacing-sm;
+    color: $secondary-color;
+}
+

@@ -1,0 +1,53 @@
+@use '../../../styles/variables' as *;
+@use 'sass:color';
+
+.header {
+    background-color: $bg-color;
+    border-bottom: 1px solid $border-color;
+    padding: $spacing-md 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-md;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: $primary-color;
+    cursor: pointer;
+}
+
+.themeButton {
+    background: transparent;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-md;
+    padding: $spacing-sm $spacing-md;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+
+    &:hover {
+        background-color: $border-color-light;
+        border-color: $primary-color;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+

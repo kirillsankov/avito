@@ -1,0 +1,22 @@
+@use '../../../styles/variables' as *;
+
+.footer {
+    background-color: $bg-color;
+    border-top: 1px solid $border-color;
+    padding: $spacing-lg 0;
+    margin-top: auto;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-md;
+    text-align: center;
+}
+
+.text {
+    color: $secondary-color;
+    font-size: 14px;
+    margin: 0;
+}
+

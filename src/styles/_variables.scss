@@ -1,14 +1,50 @@
-// Colors
-$primary-color: #0066ff;
-$secondary-color: #6c757d;
-$success-color: #28a745;
-$danger-color: #dc3545;
-$warning-color: #ffc107;
-$info-color: #17a2b8;
+// CSS Variables for theming
+:root {
+  --primary-color: #0066ff;
+  --primary-color-hover: #0052cc;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --text-color: #333;
+  --bg-color: #fff;
+  --border-color: #dee2e6;
+  --border-color-light: #e9ecef;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color-light: rgba(0, 0, 0, 0.05);
+}
 
-$text-color: #333;
-$bg-color: #fff;
-$border-color: #dee2e6;
+[data-theme='dark'] {
+  --primary-color: #4d9eff;
+  --primary-color-hover: #6bb0ff;
+  --secondary-color: #9ca3af;
+  --success-color: #48bb78;
+  --danger-color: #f56565;
+  --warning-color: #ed8936;
+  --info-color: #4299e1;
+  --text-color: #e5e7eb;
+  --bg-color: #1f2937;
+  --border-color: #374151;
+  --border-color-light: #4b5563;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-color-light: rgba(0, 0, 0, 0.2);
+}
+
+// SCSS Variables (using CSS variables)
+$primary-color: var(--primary-color);
+$primary-color-hover: var(--primary-color-hover);
+$secondary-color: var(--secondary-color);
+$success-color: var(--success-color);
+$danger-color: var(--danger-color);
+$warning-color: var(--warning-color);
+$info-color: var(--info-color);
+$text-color: var(--text-color);
+$bg-color: var(--bg-color);
+$border-color: var(--border-color);
+$border-color-light: var(--border-color-light);
+$shadow-color: var(--shadow-color);
+$shadow-color-light: var(--shadow-color-light);
 
 // Spacing
 $spacing-xs: 4px;
