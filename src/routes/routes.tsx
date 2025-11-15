@@ -11,26 +11,12 @@ function LoadingFallback() {
 }
 
 export default function AppRoutes() {
-    const routes = [
-        {
-            path: "/list",
-            element: <List />
-        },
-        {
-            path: "/item/:id",
-            element: <Item />
-        },
-        {
-            path: "/stats",
-            element: <Stats />
-        }
-    ]
     return (
         <Suspense fallback={<LoadingFallback />}>
             <Routes>
-                {routes.map((route) => (
-                    <Route key={route.path} path={route.path} element={route.element} />
-                ))}
+                <Route path="/list" element={<List />} />
+                <Route path="/item/:id" element={<Item />} />
+                <Route path="/stats" element={<Stats />} />
             </Routes>
         </Suspense>
     );

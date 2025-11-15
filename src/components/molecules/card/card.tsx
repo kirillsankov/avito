@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../hooks/redux';
 import { setActiveAdId } from '../../../features/ads/adsSlice';
 import { formatPrice, formatDate } from '../../../utils/format';
+import { motion } from 'framer-motion';
 
 function Card({ ad }: { ad: Ad }) {
     const navigate = useNavigate();
@@ -16,7 +17,10 @@ function Card({ ad }: { ad: Ad }) {
     };
 
     return (
-        <div className={styles.card}>
+        <motion.div 
+            className={styles.card}
+            whileTap={{ scale: 0.98 }}
+        >
             <div className={styles.content}>
                 <div className={styles.imageWrapper}>
                     <img 
@@ -37,7 +41,7 @@ function Card({ ad }: { ad: Ad }) {
             <Button onClick={handleOpen}>
                 Открыть
             </Button>
-        </div>
+        </motion.div>
     );
 }
 

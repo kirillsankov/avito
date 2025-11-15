@@ -6,7 +6,7 @@ import ItemNavigation from "../../components/organisms/itemNavigation/itemNaviga
 import ModerationModal from "../../components/organisms/moderationModal/moderationModal";
 import Spinner from "../../components/atoms/spinner/spinner";
 import { CheckIcon, XIcon, EditIcon, ClipboardIcon, FileTextIcon, StarIcon, CircleIcon } from "../../components/atoms/icons/icons";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/redux";
 import { formatPrice, formatDateTime } from "../../utils/format";
 import { setActiveAdId, setAds } from "../../features/ads/adsSlice";
@@ -16,13 +16,37 @@ import {
     useRejectAdMutation, 
     useRequestChangesMutation 
 } from "../../features/api/apiSlice";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
+import { motion } from "framer-motion";
 import type { RejectionReason } from "../../types/moderation";
 import styles from './item.module.scss';
 
+const pageVariants = {
+    initial: {
+        opacity: 0,
+        y: 20,
+    },
+    animate: {
+        opacity: 1,
+        y: 0,
+    },
+    exit: {
+        opacity: 0,
+        y: -20,
+    },
+};
+
+const pageTransition = {
+    type: "tween" as const,
+    ease: "anticipate" as const,
+    duration: 0.4,
+};
+
 function Item() {
     const { id } = useParams<{ id: string }>();
+    const location = useLocation();
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const adId = id ? Number(id) : null;
     
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
@@ -34,12 +58,87 @@ function Item() {
     const [rejectAd, { isLoading: isRejecting }] = useRejectAdMutation();
     const [requestChanges, { isLoading: isRequestingChanges }] = useRequestChangesMutation();
     
+    const prevAdId = adId ? adId - 1 : null;
+    const nextAdId = adId ? adId + 1 : null;
+    const { data: prevAd } = useGetAdByIdQuery(prevAdId!, { skip: !prevAdId || prevAdId < 1 });
+    const { data: nextAd } = useGetAdByIdQuery(nextAdId!, { skip: !nextAdId });
+    
     useEffect(() => {
         if (ad) {
             dispatch(setAds([ad]));
             dispatch(setActiveAdId(ad.id));
         }
     }, [ad, dispatch]);
+    
+    const handleApprove = useCallback(async () => {
+        if (!adId) return;
+        try {
+            await approveAd(adId).unwrap();
+            refetch();
+        } catch (error) {
+            console.error('Ошибка при одобрении объявления:', error);
+        }
+    }, [adId, approveAd, refetch]);
+
+    const handleReject = useCallback(async (reason: RejectionReason, comment?: string) => {
+        if (!adId) return;
+        try {
+            await rejectAd({ id: adId, body: { reason, comment } }).unwrap();
+            refetch();
+        } catch (error) {
+            console.error('Ошибка при отклонении объявления:', error);
+        }
+    }, [adId, rejectAd, refetch]);
+
+    const handleRequestChanges = useCallback(async (reason: RejectionReason, comment?: string) => {
+        if (!adId) return;
+        try {
+            await requestChanges({ id: adId, body: { reason, comment } }).unwrap();
+            refetch();
+        } catch (error) {
+            console.error('Ошибка при запросе изменений:', error);
+        }
+    }, [adId, requestChanges, refetch]);
+    
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            const target = e.target as HTMLElement;
+            if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+                return;
+            }
+            
+            if (e.code === 'KeyA') {
+                e.preventDefault();
+                if (!isApproving && adId) {
+                    handleApprove();
+                }
+            } else if (e.code === 'KeyD') {
+                e.preventDefault();
+                if (!isRejecting) {
+                    setIsRejectModalOpen(true);
+                }
+            } else if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                if (nextAd && !isLoading) {
+                    dispatch(setAds([nextAd]));
+                    dispatch(setActiveAdId(nextAd.id));
+                    navigate(`/item/${nextAd.id}`);
+                }
+            } else if (e.code === 'ArrowLeft') {
+                e.preventDefault();
+                if (prevAd && prevAdId && prevAdId >= 1 && !isLoading) {
+                    dispatch(setAds([prevAd]));
+                    dispatch(setActiveAdId(prevAd.id));
+                    navigate(`/item/${prevAd.id}`);
+                }
+            }
+        };
+        
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [adId, isApproving, isRejecting, nextAd, prevAd, prevAdId, dispatch, navigate, isLoading, handleApprove]);
     
     if (isLoading) return <Spinner size="large" />;
     if (isError || !ad) return <div>Объявление не найдено</div>;
@@ -48,36 +147,6 @@ function Item() {
         image,
         alt: `${ad.title} - изображение ${index + 1}`,
     }));
-
-    const handleApprove = async () => {
-        if (!adId) return;
-        try {
-            await approveAd(adId).unwrap();
-            refetch();
-        } catch (error) {
-            console.error('Ошибка при одобрении объявления:', error);
-        }
-    };
-
-    const handleReject = async (reason: RejectionReason, comment?: string) => {
-        if (!adId) return;
-        try {
-            await rejectAd({ id: adId, body: { reason, comment } }).unwrap();
-            refetch();
-        } catch (error) {
-            console.error('Ошибка при отклонении объявления:', error);
-        }
-    };
-
-    const handleRequestChanges = async (reason: RejectionReason, comment?: string) => {
-        if (!adId) return;
-        try {
-            await requestChanges({ id: adId, body: { reason, comment } }).unwrap();
-            refetch();
-        } catch (error) {
-            console.error('Ошибка при запросе изменений:', error);
-        }
-    };
 
     const actionButtons = [
         {
@@ -104,7 +173,15 @@ function Item() {
     ];
 
     return (
-        <section className={styles.item}>
+        <motion.section 
+            className={styles.item}
+            key={location.pathname}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageVariants}
+            transition={pageTransition}
+        >
             <div className="container">
                 <div className={styles.header}>
                     <h1 className={styles.title}>{ad.title}</h1>
@@ -278,7 +355,7 @@ function Item() {
                     submitVariant="warning"
                 />
             </div>
-        </section>
+        </motion.section>
     );
 }
 

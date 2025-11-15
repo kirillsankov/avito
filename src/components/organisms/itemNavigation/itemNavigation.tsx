@@ -65,6 +65,7 @@ function ItemNavigation({ currentAdId }: ItemNavigationProps) {
                 onClick={navigationButtons[0].onClick}
                 variant={navigationButtons[0].variant}
                 icon={navigationButtons[0].icon}
+                disableIconAnimation={true}
             >
                 {navigationButtons[0].label}
             </Button>
@@ -76,6 +77,7 @@ function ItemNavigation({ currentAdId }: ItemNavigationProps) {
                         variant={button.variant}
                         icon={button.icon}
                         disabled={button.disabled}
+                        disableIconAnimation={true}
                     >
                         {button.label}
                     </Button>

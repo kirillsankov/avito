@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import styles from './button.module.scss';
 
 interface ButtonProps {
@@ -6,18 +7,52 @@ interface ButtonProps {
     variant?: 'primary' | 'success' | 'danger' | 'warning';
     icon?: React.ReactNode;
     disabled?: boolean;
+    disableIconAnimation?: boolean;
 }
 
-function Button({ children, onClick, variant = 'primary', icon, disabled = false }: ButtonProps) {
+const buttonVariants = {
+    hover: {
+        transition: {
+            staggerChildren: 0.1
+        }
+    }
+};
+
+const iconVariants = {
+    hover: {
+        scale: 1.15,
+        rotate: 5,
+        transition: {
+            duration: 0.2
+        }
+    }
+};
+
+function Button({ children, onClick, variant = 'primary', icon, disabled = false, disableIconAnimation = false }: ButtonProps) {
     return (
-        <button 
+        <motion.button 
             className={`${styles.button} ${styles[variant]}`} 
             onClick={onClick}
             disabled={disabled}
+            variants={buttonVariants}
+            whileHover={!disabled ? "hover" : undefined}
         >
-            {icon && <span className={styles.icon}>{icon}</span>}
+            {icon && (
+                disableIconAnimation ? (
+                    <span className={styles.icon}>
+                        {icon}
+                    </span>
+                ) : (
+                    <motion.span 
+                        className={styles.icon}
+                        variants={iconVariants}
+                    >
+                        {icon}
+                    </motion.span>
+                )
+            )}
             {children}
-        </button>
+        </motion.button>
     );
 }
 

@@ -7,6 +7,25 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { setTotalPages, setTotalItems } from '../../../features/page/pageSlice';
 import { setAds } from '../../../features/ads/adsSlice';
 import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+const cardVariants = {
+    hidden: {
+        opacity: 0,
+        y: 20,
+        scale: 0.95,
+    },
+    visible: (index: number) => ({
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+            delay: index * 0.05,
+            duration: 0.3,
+            ease: "easeOut",
+        },
+    }),
+};
 
 function ListCard() {
     const page = useAppSelector((state) => state.page.currentPage)
@@ -36,10 +55,16 @@ function ListCard() {
     if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
     return <ul className={styles.listCard}>
-        {data?.ads?.map((ad: Ad) => (
-            <li key={ad.id}>
+        {data?.ads?.map((ad: Ad, index: number) => (
+            <motion.li
+                key={ad.id}
+                custom={index}
+                initial="hidden"
+                animate="visible"
+                variants={cardVariants}
+            >
                 <Card ad={ad} />
-            </li>
+            </motion.li>
         ))}
     </ul>;
 }

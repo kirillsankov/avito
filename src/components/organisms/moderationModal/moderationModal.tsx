@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../../atoms/button/button';
 import Panel from '../../atoms/panel/panel';
 import type { RejectionReason } from '../../../types/moderation';
@@ -34,8 +35,6 @@ function ModerationModal({
     const [comment, setComment] = useState('');
     const [showCommentField, setShowCommentField] = useState(false);
 
-    if (!isOpen) return null;
-
     const handleReasonChange = (reason: RejectionReason) => {
         setSelectedReason(reason);
         setShowCommentField(reason === 'Другое');
@@ -57,69 +56,124 @@ function ModerationModal({
         onClose();
     };
 
+    const overlayVariants = {
+        hidden: { opacity: 0 },
+        visible: { 
+            opacity: 1,
+            transition: { duration: 0.2 }
+        },
+        exit: { 
+            opacity: 0,
+            transition: { duration: 0.2 }
+        }
+    };
+
+    const modalVariants = {
+        hidden: { 
+            opacity: 0,
+            scale: 0.9,
+            y: 20
+        },
+        visible: { 
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            transition: {
+                type: "spring",
+                damping: 25,
+                stiffness: 300,
+                duration: 0.3
+            }
+        },
+        exit: { 
+            opacity: 0,
+            scale: 0.9,
+            y: 20,
+            transition: { duration: 0.2 }
+        }
+    };
+
     return (
-        <div className={styles.overlay} onClick={handleClose}>
-            <Panel className={styles.panelHeightAuto}>
-                <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-                    <div className={styles.header}>
-                        <h2 className={styles.title}>{title}</h2>
-                        <button className={styles.closeButton} onClick={handleClose} aria-label="Закрыть">
-                            ×
-                        </button>
-                    </div>
+        <AnimatePresence>
+            {isOpen && (
+                <motion.div 
+                    className={styles.overlay} 
+                    onClick={handleClose}
+                    variants={overlayVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                >
+                    <motion.div
+                        variants={modalVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                    >
+                        <Panel className={styles.panelHeightAuto}>
+                            <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+                                <div className={styles.header}>
+                                    <h2 className={styles.title}>{title}</h2>
+                                    <button className={styles.closeButton} onClick={handleClose} aria-label="Закрыть">
+                                        ×
+                                    </button>
+                                </div>
 
-                    <div className={styles.content}>
-                        <div className={styles.reasonSection}>
-                            <label className={styles.label}>
-                                Причина <span className={styles.required}>*</span>
-                            </label>
-                            <div className={styles.reasonsList}>
-                                {REJECTION_REASONS.map((reason) => (
-                                    <label key={reason} className={styles.reasonOption}>
-                                        <input
-                                            type="radio"
-                                            name="reason"
-                                            value={reason}
-                                            checked={selectedReason === reason}
-                                            onChange={() => handleReasonChange(reason)}
+                                <div className={styles.content}>
+                                    <div className={styles.reasonSection}>
+                                        <label className={styles.label}>
+                                            Причина <span className={styles.required}>*</span>
+                                        </label>
+                                        <div className={styles.reasonsList}>
+                                            {REJECTION_REASONS.map((reason) => (
+                                                <label key={reason} className={styles.reasonOption}>
+                                                    <input
+                                                        type="radio"
+                                                        name="reason"
+                                                        value={reason}
+                                                        checked={selectedReason === reason}
+                                                        onChange={() => handleReasonChange(reason)}
+                                                    />
+                                                    <span>{reason}</span>
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.commentSection}>
+                                        <label className={styles.label}>
+                                            {showCommentField ? 'Дополнительный комментарий' : 'Комментарий (необязательно)'}
+                                            {showCommentField && <span className={styles.required}>*</span>}
+                                        </label>
+                                        <textarea
+                                            className={styles.commentInput}
+                                            value={comment}
+                                            onChange={(e) => setComment(e.target.value)}
+                                            placeholder={showCommentField ? 'Укажите причину...' : 'Введите комментарий...'}
+                                            rows={4}
+                                            required={showCommentField}
                                         />
-                                        <span>{reason}</span>
-                                    </label>
-                                ))}
+                                    </div>
+                                </div>
+
+                                <div className={styles.footer}>
+                                    <Button onClick={handleClose} variant="primary">
+                                        Отмена
+                                    </Button>
+                                    <Button
+                                        onClick={handleSubmit}
+                                        variant={submitVariant}
+                                        disabled={!selectedReason || (showCommentField && !comment.trim())}
+                                    >
+                                        {submitLabel}
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
-
-                        <div className={styles.commentSection}>
-                            <label className={styles.label}>
-                                {showCommentField ? 'Дополнительный комментарий' : 'Комментарий (необязательно)'}
-                                {showCommentField && <span className={styles.required}>*</span>}
-                            </label>
-                            <textarea
-                                className={styles.commentInput}
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                                placeholder={showCommentField ? 'Укажите причину...' : 'Введите комментарий...'}
-                                rows={4}
-                                required={showCommentField}
-                            />
-                        </div>
-                    </div>
-
-                    <div className={styles.footer}>
-                        <Button onClick={handleClose} variant="primary">
-                            Отмена
-                        </Button>
-                        <Button
-                            onClick={handleSubmit}
-                            variant={submitVariant}
-                            disabled={!selectedReason || (showCommentField && !comment.trim())}
-                        >
-                            {submitLabel}
-                        </Button>
-                    </div>
-                </div>
-            </Panel>
-        </div>
+                        </Panel>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 }
 

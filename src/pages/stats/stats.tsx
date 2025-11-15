@@ -5,9 +5,33 @@ import DecisionsChart from '../../components/organisms/decisionsChart/decisionsC
 import CategoryChart from '../../components/organisms/categoryChart/categoryChart';
 import Spinner from '../../components/atoms/spinner/spinner';
 import { ChartBarIcon, ChartLineIcon, ChartAreaIcon, ClipboardIcon, CheckIcon, XIcon, ClockIcon } from '../../components/atoms/icons/icons';
+import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import styles from './stats.module.scss';
 
+const pageVariants = {
+    initial: {
+        opacity: 0,
+        y: 20,
+    },
+    animate: {
+        opacity: 1,
+        y: 0,
+    },
+    exit: {
+        opacity: 0,
+        y: -20,
+    },
+};
+
+const pageTransition = {
+    type: "tween" as const,
+    ease: "anticipate" as const,
+    duration: 0.4,
+};
+
 function Stats() {
+    const location = useLocation();
     const chartParams = { period: 'week' as const };
 
     const { data: moderator, isLoading: isLoadingModerator, error: errorModerator } = useGetModeratorStatsQuery();
@@ -81,7 +105,15 @@ function Stats() {
     ];
 
     return (
-        <section className={styles.stats}>
+        <motion.section 
+            className={styles.stats}
+            key={location.pathname}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageVariants}
+            transition={pageTransition}
+        >
             <div className="container">
                 <div className={styles.header}>
                     <h1 className={styles.title}>Статистика модератора</h1>
@@ -112,7 +144,7 @@ function Stats() {
                     {categoriesData && <CategoryChart data={categoriesData} />}
                 </div>
             </div>
-        </section>
+        </motion.section>
     );
 }
 
