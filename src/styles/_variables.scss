@@ -1,11 +1,14 @@
-// CSS Variables for theming
 :root {
   --primary-color: #0066ff;
   --primary-color-hover: #0052cc;
   --secondary-color: #6c757d;
   --success-color: #28a745;
+  --success-color-hover: #218838;
   --danger-color: #dc3545;
+  --danger-color-hover: #c82333;
   --warning-color: #ffc107;
+  --warning-color-hover: #e0a800;
+  --warning-text-color: #000;
   --info-color: #17a2b8;
   --text-color: #333;
   --bg-color: #fff;
@@ -20,8 +23,12 @@
   --primary-color-hover: #6bb0ff;
   --secondary-color: #9ca3af;
   --success-color: #48bb78;
+  --success-color-hover: #38a169;
   --danger-color: #f56565;
+  --danger-color-hover: #e53e3e;
   --warning-color: #ed8936;
+  --warning-color-hover: #dd6b20;
+  --warning-text-color: #e5e7eb;
   --info-color: #4299e1;
   --text-color: #e5e7eb;
   --bg-color: #1f2937;
@@ -31,13 +38,16 @@
   --shadow-color-light: rgba(0, 0, 0, 0.2);
 }
 
-// SCSS Variables (using CSS variables)
 $primary-color: var(--primary-color);
 $primary-color-hover: var(--primary-color-hover);
 $secondary-color: var(--secondary-color);
 $success-color: var(--success-color);
+$success-color-hover: var(--success-color-hover);
 $danger-color: var(--danger-color);
+$danger-color-hover: var(--danger-color-hover);
 $warning-color: var(--warning-color);
+$warning-color-hover: var(--warning-color-hover);
+$warning-text-color: var(--warning-text-color);
 $info-color: var(--info-color);
 $text-color: var(--text-color);
 $bg-color: var(--bg-color);
@@ -46,19 +56,16 @@ $border-color-light: var(--border-color-light);
 $shadow-color: var(--shadow-color);
 $shadow-color-light: var(--shadow-color-light);
 
-// Spacing
 $spacing-xs: 4px;
 $spacing-sm: 8px;
 $spacing-md: 16px;
 $spacing-lg: 24px;
 $spacing-xl: 32px;
 
-// Border radius
 $border-radius-sm: 4px;
 $border-radius-md: 8px;
 $border-radius-lg: 12px;
 
-// Breakpoints
 $breakpoint-mobile: 480px;
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;

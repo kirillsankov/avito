@@ -1,9 +1,11 @@
 import { useGetAdsQuery } from '../../../features/api/apiSlice';
 import Card from '../../molecules/card/card';
+import Spinner from '../../atoms/spinner/spinner';
 import type { Ad } from '../../../types/apiType';
 import styles from './listCard.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { setTotalPages, setTotalItems } from '../../../features/page/pageSlice';
+import { setAds } from '../../../features/ads/adsSlice';
 import { useEffect } from 'react';
 
 function ListCard() {
@@ -25,9 +27,12 @@ function ListCard() {
             dispatch(setTotalPages(data.pagination.totalPages))
             dispatch(setTotalItems(data.pagination.totalItems))
         }
+        if(data?.ads) {
+            dispatch(setAds(data.ads))
+        }
     }, [data, dispatch])
     
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <Spinner size="large" />;
     if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
     return <ul className={styles.listCard}>

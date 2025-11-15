@@ -1,0 +1,59 @@
+@use '../../../styles/variables' as *;
+
+.metricCard {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-md;
+}
+
+.icon {
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: $border-radius-md;
+    background-color: rgba(0, 102, 255, 0.1);
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+}
+
+.title {
+    font-size: 14px;
+    color: $secondary-color;
+    font-weight: 500;
+}
+
+.value {
+    font-size: 24px;
+    font-weight: 700;
+    color: $text-color;
+}
+
+.metricCard.primary .icon {
+    background-color: rgba(0, 102, 255, 0.1);
+    color: $primary-color;
+}
+
+.metricCard.success .icon {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: $success-color;
+}
+
+.metricCard.danger .icon {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: $danger-color;
+}
+
+.metricCard.info .icon {
+    background-color: rgba(23, 162, 184, 0.1);
+    color: $info-color;
+}
+

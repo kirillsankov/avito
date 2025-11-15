@@ -1,6 +1,5 @@
 import type { Ad } from '../../types/apiType';
 
-// Функция для извлечения уникальных категорий из данных объявлений
 export const extractUniqueCategories = (ads: Ad[]): { id: number; name: string }[] => {
     const categoriesMap = new Map<number, { id: number; name: string }>();
 

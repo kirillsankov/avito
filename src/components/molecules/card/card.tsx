@@ -2,10 +2,18 @@ import type { Ad } from '../../../types/apiType';
 import styles from './card.module.scss';
 import Button from '../../atoms/button/button';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../../hooks/redux';
+import { setActiveAdId } from '../../../features/ads/adsSlice';
 import { formatPrice, formatDate } from '../../../utils/format';
 
 function Card({ ad }: { ad: Ad }) {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    const handleOpen = () => {
+        dispatch(setActiveAdId(ad.id));
+        navigate(`/item/${ad.id}`);
+    };
 
     return (
         <div className={styles.card}>
@@ -26,7 +34,7 @@ function Card({ ad }: { ad: Ad }) {
                     </div>
                 </div>
             </div>
-            <Button onClick={() => navigate(`/item/${ad.id}`)}>
+            <Button onClick={handleOpen}>
                 Открыть
             </Button>
         </div>

@@ -3,6 +3,7 @@ import { adsApi } from '../features/api/apiSlice'
 import pageReducer from '../features/page/pageSlice'
 import filtersReducer from '../features/filters/filtersSlice'
 import themeReducer from '../features/theme/themeSlice'
+import adsReducer from '../features/ads/adsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     page: pageReducer,
     filters: filtersReducer,
     theme: themeReducer,
+    ads: adsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(adsApi.middleware),

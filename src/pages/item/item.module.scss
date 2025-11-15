@@ -1,0 +1,378 @@
+@use '../../styles/variables' as *;
+
+.item {
+    padding: $spacing-lg 0;
+}
+
+.header {
+    margin-bottom: $spacing-lg;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    color: $text-color;
+    margin: 0 0 $spacing-sm 0;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: 700;
+    color: $primary-color;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-lg;
+
+    @media (max-width: $breakpoint-tablet) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.galleryWrapper {
+    min-width: 0;
+}
+
+.rightColumn {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+    height: 100%;
+}
+
+.moderationHistory {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.infoPanel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-lg;
+
+    @media (max-width: $breakpoint-tablet) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.infoColumn {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+}
+
+.infoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-sm 0;
+    border-bottom: 1px solid $border-color-light;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.infoLabel {
+    font-weight: 500;
+    color: $text-color;
+}
+
+.infoValue {
+    color: $text-color;
+    text-align: right;
+}
+
+.status {
+    display: inline-block;
+    padding: $spacing-xs $spacing-md;
+    border-radius: $border-radius-sm;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &.pending {
+        background-color: $warning-color;
+        color: #000;
+    }
+
+    &.approved {
+        background-color: $success-color;
+        color: $bg-color;
+    }
+
+    &.rejected {
+        background-color: $danger-color;
+        color: $bg-color;
+    }
+
+    &.draft {
+        background-color: $secondary-color;
+        color: $bg-color;
+    }
+
+    &.requestchanges {
+        background-color: $warning-color;
+        color: #000;
+    }
+}
+
+.priority {
+    display: inline-block;
+    padding: $spacing-xs $spacing-md;
+    border-radius: $border-radius-sm;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &.high {
+        background-color: $danger-color;
+        color: $bg-color;
+    }
+
+    &.medium {
+        background-color: $warning-color;
+        color: #000;
+    }
+
+    &.low {
+        background-color: $success-color;
+        color: $bg-color;
+    }
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+}
+
+.detailsSection {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+}
+
+.detailsSectionTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-color;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+}
+
+.detailsIcon {
+    font-size: 18px;
+}
+
+.descriptionText {
+    font-size: 14px;
+    color: $text-color;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    margin: 0;
+}
+
+.characteristicsTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.characteristicsTableRow {
+    border-bottom: 1px solid $border-color-light;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.characteristicsTableLabel {
+    padding: $spacing-sm $spacing-md;
+    font-size: 14px;
+    color: $secondary-color;
+    text-transform: uppercase;
+    font-weight: 500;
+    width: 40%;
+}
+
+.characteristicsTableValue {
+    padding: $spacing-sm $spacing-md;
+    font-size: 14px;
+    color: $text-color;
+    font-weight: 500;
+}
+
+.sellerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+}
+
+.sellerName {
+    font-size: 14px;
+    color: $text-color;
+    font-weight: 500;
+}
+
+.sellerRating {
+    font-size: 14px;
+    color: $text-color;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+}
+
+.ratingIcon {
+    font-size: 16px;
+}
+
+.sellerActivity {
+    font-size: 14px;
+    color: $secondary-color;
+}
+
+.description {
+    margin-bottom: $spacing-lg;
+}
+
+.descriptionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-color;
+    margin: 0 0 $spacing-md 0;
+}
+
+.descriptionText {
+    font-size: 14px;
+    color: $text-color;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+    padding: $spacing-lg;
+    margin-top: $spacing-lg;
+    background-color: $bg-color;
+    border-radius: $border-radius-md;
+    border: 1px solid $border-color-light;
+    box-shadow: 0 2px 8px $shadow-color-light;
+}
+
+
+.moderationHistory {
+    width: 100%;
+}
+
+.moderationHistoryTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-color;
+    margin: 0 0 $spacing-md 0;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+}
+
+.moderationHistoryIcon {
+    font-size: 20px;
+}
+
+.moderationHistoryList {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.moderationHistoryItem {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding: $spacing-sm 0;
+    border-bottom: 1px solid $border-color-light;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.moderationHistoryRow {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: 14px;
+}
+
+.moderationHistoryLabel {
+    font-weight: 500;
+    color: $text-color;
+}
+
+.moderationHistoryValue {
+    color: $text-color;
+}
+
+.moderationHistoryDate {
+    color: $secondary-color;
+    font-size: 13px;
+}
+
+.moderationHistoryStatus {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: $spacing-xs $spacing-md;
+    border-radius: $border-radius-sm;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &.approved {
+        background-color: $success-color;
+        color: $bg-color;
+    }
+
+    &.rejected {
+        background-color: $danger-color;
+        color: $bg-color;
+    }
+
+    &.pending {
+        background-color: $warning-color;
+        color: #000;
+    }
+
+    &.draft {
+        background-color: $secondary-color;
+        color: $bg-color;
+    }
+
+    &.requestchanges {
+        background-color: $warning-color;
+        color: #000;
+    }
+}
+
+.moderationHistoryStatusIcon {
+    font-size: 14px;
+}
+
+.moderationHistoryEmpty {
+    color: $secondary-color;
+    font-size: 14px;
+    text-align: center;
+    padding: $spacing-md 0;
+}
+

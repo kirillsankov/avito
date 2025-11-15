@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { AdsResponse } from '../../types/apiType'
+import type { AdsResponse, Ad } from '../../types/apiType'
 import type { GetAdsParams } from '../../types/api'
+import type { Moderator, ChartParams, ActivityData, DecisionsData, CategoryStats } from '../../types/moderator'
+import type { RejectAdRequest, RequestChangesRequest, ModerationResponse } from '../../types/moderation'
 
 export const adsApi = createApi({
     reducerPath: 'adsApi',
@@ -37,8 +39,101 @@ export const adsApi = createApi({
                 return `/ads?${queryParams.toString()}`
             },
         }),
+        getAdById: builder.query<Ad, number>({
+            query: (id) => `/ads/${id}`,
+        }),
+        getModeratorStats: builder.query<Moderator, void>({
+            query: () => '/moderators/me',
+        }),
+        getActivityChart: builder.query<ActivityData[], ChartParams>({
+            query: (params) => {
+                const { period, startDate, endDate } = params;
+                const queryParams = new URLSearchParams();
+                
+                if (period) {
+                    queryParams.append('period', period);
+                }
+                if (startDate) {
+                    queryParams.append('startDate', startDate);
+                }
+                if (endDate) {
+                    queryParams.append('endDate', endDate);
+                }
+                
+                const queryString = queryParams.toString();
+                return `/stats/chart/activity${queryString ? `?${queryString}` : ''}`;
+            },
+        }),
+        getDecisionsChart: builder.query<DecisionsData, ChartParams>({
+            query: (params) => {
+                const { period, startDate, endDate } = params;
+                const queryParams = new URLSearchParams();
+                
+                if (period) {
+                    queryParams.append('period', period);
+                }
+                if (startDate) {
+                    queryParams.append('startDate', startDate);
+                }
+                if (endDate) {
+                    queryParams.append('endDate', endDate);
+                }
+                
+                const queryString = queryParams.toString();
+                return `/stats/chart/decisions${queryString ? `?${queryString}` : ''}`;
+            },
+        }),
+        getCategoriesChart: builder.query<CategoryStats, ChartParams>({
+            query: (params) => {
+                const { period, startDate, endDate } = params;
+                const queryParams = new URLSearchParams();
+                
+                if (period) {
+                    queryParams.append('period', period);
+                }
+                if (startDate) {
+                    queryParams.append('startDate', startDate);
+                }
+                if (endDate) {
+                    queryParams.append('endDate', endDate);
+                }
+                
+                const queryString = queryParams.toString();
+                return `/stats/chart/categories${queryString ? `?${queryString}` : ''}`;
+            },
+        }),
+        approveAd: builder.mutation<ModerationResponse, number>({
+            query: (id) => ({
+                url: `/ads/${id}/approve`,
+                method: 'POST',
+            }),
+        }),
+        rejectAd: builder.mutation<ModerationResponse, { id: number; body: RejectAdRequest }>({
+            query: ({ id, body }) => ({
+                url: `/ads/${id}/reject`,
+                method: 'POST',
+                body,
+            }),
+        }),
+        requestChanges: builder.mutation<ModerationResponse, { id: number; body: RequestChangesRequest }>({
+            query: ({ id, body }) => ({
+                url: `/ads/${id}/request-changes`,
+                method: 'POST',
+                body,
+            }),
+        }),
         }
     ),
 })
 
-export const { useGetAdsQuery } = adsApi
+export const { 
+    useGetAdsQuery, 
+    useGetAdByIdQuery, 
+    useGetModeratorStatsQuery,
+    useGetActivityChartQuery,
+    useGetDecisionsChartQuery,
+    useGetCategoriesChartQuery,
+    useApproveAdMutation,
+    useRejectAdMutation,
+    useRequestChangesMutation,
+} = adsApi

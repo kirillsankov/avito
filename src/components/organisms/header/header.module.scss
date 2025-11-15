@@ -18,6 +18,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: $spacing-lg;
 }
 
 .logo {
@@ -25,6 +26,51 @@
     font-weight: 700;
     color: $primary-color;
     cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+        color: $primary-color-hover;
+    }
+}
+
+.nav {
+    display: flex;
+    gap: $spacing-md;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+}
+
+.navLink {
+    padding: $spacing-sm $spacing-md;
+    color: $text-color;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: $border-radius-md;
+    transition: all 0.2s;
+    position: relative;
+
+    &:hover {
+        background-color: $border-color-light;
+        color: $primary-color;
+    }
+
+    &.active {
+        color: $primary-color;
+        background-color: rgba(0, 102, 255, 0.1);
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -$spacing-md;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: $primary-color;
+        }
+    }
 }
 
 .themeButton {

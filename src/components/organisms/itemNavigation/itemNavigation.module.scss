@@ -1,0 +1,25 @@
+@use '../../../styles/variables' as *;
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-lg;
+    margin-top: $spacing-md;
+    background-color: $bg-color;
+    border-radius: $border-radius-md;
+    border: 1px solid $border-color-light;
+    box-shadow: 0 2px 8px $shadow-color-light;
+
+    @media (max-width: $breakpoint-mobile) {
+        flex-direction: column;
+    }
+}
+
+.navigationArrows {
+    display: flex;
+    gap: $spacing-md;
+    align-items: center;
+}
+

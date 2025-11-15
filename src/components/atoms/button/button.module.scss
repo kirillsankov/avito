@@ -1,26 +1,87 @@
 @use '../../../styles/variables' as *;
-@use 'sass:color';
 
 .button {
-    background-color: $primary-color;
-    color: $bg-color;
     border: none;
     border-radius: $border-radius-lg;
-    padding: $spacing-md $spacing-lg;
+    padding: $spacing-md $spacing-xl;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: $bg-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-sm;
+    min-width: 140px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    &:hover {
-        background-color: $primary-color-hover;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(0, 102, 255, 0.3);
+    .icon {
+        display: inline-flex;
+        align-items: center;
+        font-size: 18px;
+        font-weight: bold;
     }
 
-    &:active {
-        transform: translateY(0);
-        box-shadow: 0 2px 4px rgba(0, 102, 255, 0.2);
+    &.primary {
+        background-color: $primary-color;
+
+        &:hover {
+            background-color: $primary-color-hover;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 102, 255, 0.3);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 102, 255, 0.2);
+        }
+    }
+
+    &.success {
+        background-color: $success-color;
+
+        &:hover {
+            background-color: $success-color-hover;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+        }
+    }
+
+    &.danger {
+        background-color: $danger-color;
+
+        &:hover {
+            background-color: $danger-color-hover;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+        }
+    }
+
+    &.warning {
+        background-color: $warning-color;
+        color: $bg-color;
+
+        &:hover {
+            background-color: $warning-color-hover;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(255, 193, 7, 0.2);
+        }
     }
 
     &:disabled {
@@ -29,7 +90,6 @@
         transform: none;
         
         &:hover {
-            background-color: $primary-color;
             transform: none;
             box-shadow: none;
         }

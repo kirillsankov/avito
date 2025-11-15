@@ -1,0 +1,58 @@
+@use '../../styles/variables' as *;
+
+.stats {
+    padding: $spacing-lg 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-xl;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    color: $text-color;
+    margin: 0;
+}
+
+.moderatorInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: $spacing-xs;
+}
+
+.moderatorName {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-color;
+}
+
+.moderatorRole {
+    font-size: 14px;
+    color: $secondary-color;
+}
+
+.metricsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: $spacing-lg;
+    margin-bottom: $spacing-xl;
+}
+
+.chartsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: $spacing-lg;
+    margin-bottom: $spacing-xl;
+}
+
+.categoryChart {
+    margin-top: $spacing-lg;
+}
+

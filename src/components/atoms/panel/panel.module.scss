@@ -1,0 +1,23 @@
+@use '../../../styles/variables' as *;
+
+.panel {
+    background-color: $bg-color;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-md;
+    padding: $spacing-lg;
+    box-shadow: 0 2px 4px $shadow-color-light;
+    height: 100%;
+}
+
+.heightAuto {
+    height: auto;
+}
+
+.light {
+    background-color: $bg-color;
+}
+
+.dark {
+    background-color: $border-color-light;
+}
+
