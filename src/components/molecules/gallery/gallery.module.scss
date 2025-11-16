@@ -26,11 +26,13 @@
             font-weight: bold;
         }
         
-        &:hover {
-            background-color: $primary-color;
-            color: $bg-color;
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px $shadow-color;
+        @media (min-width: $breakpoint-wide) {
+            &:hover {
+                background-color: $primary-color;
+                color: $bg-color;
+                transform: scale(1.05);
+                box-shadow: 0 4px 12px $shadow-color;
+            }
         }
         
         &:active {
@@ -67,9 +69,11 @@
         transition: all 0.3s ease;
         margin: 0 4px;
         
-        &:hover {
-            opacity: 0.8;
-            transform: scale(1.1);
+        @media (min-width: $breakpoint-wide) {
+            &:hover {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
         }
     }
     
@@ -89,7 +93,7 @@
 .imageWrapper {
     position: relative;
     width: 100%;
-    padding-top: 100%; // Square aspect ratio
+    padding-top: 100%;
     overflow: hidden;
     border-radius: $border-radius-md;
     border: 1px solid $border-color;

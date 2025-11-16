@@ -5,7 +5,7 @@ interface MetricCardProps {
     title: string;
     value: string | number;
     icon?: React.ReactNode;
-    variant?: 'primary' | 'success' | 'danger' | 'info';
+    variant?: 'primary' | 'success' | 'danger' | 'info' | 'warning';
 }
 
 function MetricCard({ title, value, icon, variant = 'primary' }: MetricCardProps) {

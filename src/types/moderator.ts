@@ -8,7 +8,7 @@ export interface Moderator {
         todayReviewed: number;
         thisWeekReviewed: number;
         thisMonthReviewed: number;
-        averageReviewTime: number; // в секундах
+        averageReviewTime: number;
         approvalRate: number;
     };
     permissions: string[];
@@ -32,7 +32,7 @@ export interface ActivityData {
 export interface DecisionsData {
     approved: number;
     rejected: number;
-    revision: number;
+    requestChanges: number;
 }
 
 export interface CategoryStats {

@@ -2,15 +2,46 @@
 
 .input {
     width: 100%;
-    padding: 10px 12px;
+    padding: $spacing-sm $spacing-md;
     border: 1px solid $border-color;
-    border-radius: $border-radius-sm;
+    border-radius: $border-radius-md;
     font-size: 14px;
-    transition: border-color 0.2s;
+    font-family: 'Montserrat', sans-serif;
+    color: $text-color;
+    background: $bg-color;
+    transition: all 0.2s ease;
+
+    &::placeholder {
+        color: $text-color;
+        opacity: 1;
+    }
+
+    @media (min-width: $breakpoint-wide) {
+        &:hover {
+            border-color: $primary-color;
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+        }
+    }
 
     &:focus {
         outline: none;
         border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background-color: $border-color-light;
+    }
+
+    &[type="number"] {
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        -moz-appearance: textfield;
     }
 }
 

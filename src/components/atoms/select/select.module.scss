@@ -2,17 +2,46 @@
 
 .select {
     width: 100%;
-    padding: 10px 12px;
+    padding: $spacing-sm $spacing-md;
+    padding-right: 40px;
     border: 1px solid $border-color;
-    border-radius: $border-radius-sm;
+    border-radius: $border-radius-md;
     font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    color: $text-color;
     background: $bg-color;
+    background-repeat: no-repeat;
+    background-position: right $spacing-md center;
+    background-size: 12px;
     cursor: pointer;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    @media (min-width: $breakpoint-wide) {
+        &:hover {
+            border-color: $primary-color;
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+        }
+    }
 
     &:focus {
         outline: none;
         border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background-color: $border-color-light;
+    }
+
+    option {
+        padding: $spacing-sm;
+        background: $bg-color;
+        color: $text-color;
     }
 }
 

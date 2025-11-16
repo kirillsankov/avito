@@ -1,0 +1,46 @@
+@use '../../../styles/variables' as *;
+
+.bulkActions {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    background-color: $bg-color;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-md;
+    margin-bottom: $spacing-lg;
+}
+
+.selectionInfo {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+}
+
+.counter {
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-color;
+    padding: $spacing-xs $spacing-sm;
+    background-color: $border-color-light;
+    border-radius: $border-radius-sm;
+}
+
+.actions {
+    display: flex;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .selectionInfo {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .actions {
+        flex-direction: column;
+    }
+}
+

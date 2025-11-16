@@ -34,3 +34,6 @@ export const formatDateTime = (dateString: string): string => {
     }).format(date);
 };
 
+export const formatPercentage = (percent: number): string => 
+    (Math.round(percent * 100) / 100).toFixed(2).replace(/\.00$/, '');
+

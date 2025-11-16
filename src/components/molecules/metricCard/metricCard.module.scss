@@ -57,3 +57,8 @@
     color: $info-color;
 }
 
+.metricCard.warning .icon {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: $warning-color;
+}
+

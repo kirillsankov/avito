@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import type { StatusFilter, FiltersState } from '../../types/filters'
+import type { StatusFilter, FiltersState, SortBy, SortOrder } from '../../types/filters'
 
 const initialState: FiltersState = {
     status: [],
@@ -7,6 +7,8 @@ const initialState: FiltersState = {
     minPrice: null,
     maxPrice: null,
     search: '',
+    sortBy: null,
+    sortOrder: 'desc',
 }
 
 export const filtersSlice = createSlice({
@@ -36,12 +38,20 @@ export const filtersSlice = createSlice({
         setSearch: (state, action: PayloadAction<string>) => {
             state.search = action.payload
         },
+        setSortBy: (state, action: PayloadAction<SortBy>) => {
+            state.sortBy = action.payload
+        },
+        setSortOrder: (state, action: PayloadAction<SortOrder>) => {
+            state.sortOrder = action.payload
+        },
         resetFilters: (state) => {
             state.status = []
             state.categoryId = null
             state.minPrice = null
             state.maxPrice = null
             state.search = ''
+            state.sortBy = null
+            state.sortOrder = 'desc'
         },
     },
 })
@@ -53,6 +63,8 @@ export const {
     setMinPrice,
     setMaxPrice,
     setSearch,
+    setSortBy,
+    setSortOrder,
     resetFilters,
 } = filtersSlice.actions
 

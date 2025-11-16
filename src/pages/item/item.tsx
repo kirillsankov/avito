@@ -5,6 +5,7 @@ import Gallery from "../../components/molecules/gallery/gallery";
 import ItemNavigation from "../../components/organisms/itemNavigation/itemNavigation";
 import ModerationModal from "../../components/organisms/moderationModal/moderationModal";
 import Spinner from "../../components/atoms/spinner/spinner";
+import ErrorMessage from "../../components/molecules/errorMessage/errorMessage";
 import { CheckIcon, XIcon, EditIcon, ClipboardIcon, FileTextIcon, StarIcon, CircleIcon } from "../../components/atoms/icons/icons";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/redux";
@@ -19,6 +20,7 @@ import {
 import { useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import type { RejectionReason } from "../../types/moderation";
+import { useMetaTags } from "../../hooks/useMetaTags";
 import styles from './item.module.scss';
 
 const pageVariants = {
@@ -52,7 +54,12 @@ function Item() {
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
     const [isRequestChangesModalOpen, setIsRequestChangesModalOpen] = useState(false);
     
-    const { data: ad, isLoading, isError, refetch } = useGetAdByIdQuery(adId!, { skip: !adId });
+    const { data: ad, isLoading, isError, error, refetch } = useGetAdByIdQuery(adId!, { skip: !adId });
+
+    useMetaTags({
+        title: ad ? `${ad.title} - Avito Модерация` : 'Объявление - Avito Модерация',
+        description: ad ? `Модерация объявления: ${ad.title}. Цена: ${formatPrice(ad.price)}. Категория: ${ad.category}.` : 'Просмотр и модерация объявления.'
+    });
     
     const [approveAd, { isLoading: isApproving }] = useApproveAdMutation();
     const [rejectAd, { isLoading: isRejecting }] = useRejectAdMutation();
@@ -140,8 +147,50 @@ function Item() {
         };
     }, [adId, isApproving, isRejecting, nextAd, prevAd, prevAdId, dispatch, navigate, isLoading, handleApprove]);
     
+    if (!adId) {
+        return (
+            <motion.section 
+                className={styles.item}
+                key={location.pathname}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
+                <div className="container">
+                    <ErrorMessage 
+                        error="Некорректный ID объявления" 
+                        title="Объявление не найдено"
+                        onRetry={() => navigate('/list')}
+                    />
+                </div>
+            </motion.section>
+        );
+    }
+
     if (isLoading) return <Spinner size="large" />;
-    if (isError || !ad) return <div>Объявление не найдено</div>;
+    if (isError || (!ad && !isLoading)) {
+        return (
+            <motion.section 
+                className={styles.item}
+                key={location.pathname}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
+                <div className="container">
+                    <ErrorMessage 
+                        error={error || 'Объявление не найдено'} 
+                        title="Объявление не найдено"
+                        onRetry={() => refetch()}
+                    />
+                </div>
+            </motion.section>
+        );
+    }
 
     const galleryItems = ad.images.map((image, index) => ({
         image,
@@ -243,6 +292,14 @@ function Item() {
                                                             {getActionLabel(action.action)}
                                                         </span>
                                                     </div>
+                                                    {action.comment && action.comment.trim() && (
+                                                        <div className={styles.moderationHistoryRow}>
+                                                            <div className={styles.moderationHistoryComment}>
+                                                                <span className={styles.moderationHistoryCommentLabel}>Комментарий:</span>
+                                                                <span className={styles.moderationHistoryCommentText}>{action.comment}</span>
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             );
                                         })}

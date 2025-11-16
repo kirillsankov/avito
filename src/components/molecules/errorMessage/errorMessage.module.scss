@@ -1,0 +1,32 @@
+@use '../../../styles/variables' as *;
+
+.errorMessage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-xl;
+    text-align: center;
+    gap: $spacing-md;
+    min-height: 300px;
+}
+
+.icon {
+    color: $danger-color;
+    margin-bottom: $spacing-sm;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    color: $text-color;
+    margin: 0;
+}
+
+.message {
+    font-size: 16px;
+    color: $secondary-color;
+    margin: 0;
+    max-width: 600px;
+}
+

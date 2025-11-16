@@ -1,4 +1,4 @@
-import type { StatusFilter } from './filters';
+import type { StatusFilter, SortBy, SortOrder } from './filters';
 
 export interface GetAdsParams {
     page?: number;
@@ -7,5 +7,7 @@ export interface GetAdsParams {
     minPrice?: number | null;
     maxPrice?: number | null;
     search?: string;
+    sortBy?: SortBy;
+    sortOrder?: SortOrder;
 }
 

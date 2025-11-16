@@ -11,3 +11,14 @@
     margin: 0 0 $spacing-lg 0;
 }
 
+@media (max-width: $breakpoint-mobile) {
+    .chartContainer {
+        padding: $spacing-sm;
+    }
+
+    .title {
+        font-size: 16px;
+        margin: 0 0 $spacing-md 0;
+    }
+}
+

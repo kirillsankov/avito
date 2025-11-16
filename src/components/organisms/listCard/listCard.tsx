@@ -1,6 +1,7 @@
 import { useGetAdsQuery } from '../../../features/api/apiSlice';
 import Card from '../../molecules/card/card';
 import Spinner from '../../atoms/spinner/spinner';
+import ErrorMessage from '../../molecules/errorMessage/errorMessage';
 import type { Ad } from '../../../types/apiType';
 import styles from './listCard.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -22,24 +23,48 @@ const cardVariants = {
         transition: {
             delay: index * 0.05,
             duration: 0.3,
-            ease: "easeOut",
+            ease: "easeOut" as const,
         },
     }),
 };
 
-function ListCard() {
+interface ListCardProps {
+    onErrorChange?: (hasError: boolean) => void;
+    onLoadingChange?: (isLoading: boolean) => void;
+    onRefetchReady?: (refetch: () => void) => void;
+}
+
+function ListCard({ onErrorChange, onLoadingChange, onRefetchReady }: ListCardProps = {}) {
     const page = useAppSelector((state) => state.page.currentPage)
     const filters = useAppSelector((state) => state.filters)
     const dispatch = useAppDispatch();
     
-    const { data, isLoading, error } = useGetAdsQuery({
+    const { data, isLoading, error, refetch } = useGetAdsQuery({
         page,
         status: filters.status.length > 0 ? filters.status : undefined,
         categoryId: filters.categoryId,
         minPrice: filters.minPrice,
         maxPrice: filters.maxPrice,
         search: filters.search.trim() || undefined,
+        sortBy: filters.sortBy || undefined,
+        sortOrder: filters.sortOrder,
+    }, {
+        pollingInterval: 30000,
+        refetchOnFocus: true,
+        refetchOnReconnect: true,
     });
+    
+    useEffect(() => {
+        if (onErrorChange) {
+            onErrorChange(!!error);
+        }
+    }, [error, onErrorChange]);
+    
+    useEffect(() => {
+        if (onLoadingChange) {
+            onLoadingChange(isLoading);
+        }
+    }, [isLoading, onLoadingChange]);
     
     useEffect(() => {
         if(data?.pagination) {
@@ -51,8 +76,22 @@ function ListCard() {
         }
     }, [data, dispatch])
     
+    useEffect(() => {
+        if (onRefetchReady) {
+            onRefetchReady(refetch);
+        }
+    }, [refetch, onRefetchReady])
+    
     if (isLoading) return <Spinner size="large" />;
-    if (error) return <div>Error: {JSON.stringify(error)}</div>;
+    if (error) {
+        return (
+            <ErrorMessage 
+                error={error} 
+                title="Ошибка загрузки объявлений"
+                onRetry={() => refetch()}
+            />
+        );
+    }
 
     return <ul className={styles.listCard}>
         {data?.ads?.map((ad: Ad, index: number) => (

@@ -7,7 +7,7 @@
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: $spacing-xl;
     flex-wrap: wrap;
     gap: $spacing-md;
@@ -25,6 +25,7 @@
     flex-direction: column;
     align-items: flex-end;
     gap: $spacing-xs;
+    margin-left: auto;
 }
 
 .moderatorName {
@@ -54,5 +55,151 @@
 
 .categoryChart {
     margin-top: $spacing-lg;
+}
+
+.exportButtons {
+    display: flex;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+}
+
+.filterButtons {
+    display: flex;
+    gap: $spacing-sm;
+}
+
+.periodFilter {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-xl;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.periodButton {
+    padding: $spacing-sm $spacing-md;
+    border: 2px solid $border-color;
+    background: $bg-color;
+    color: $text-color;
+    border-radius: $border-radius-md;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    @media (min-width: $breakpoint-wide) {
+        &:hover:not(.active) {
+            border-color: $primary-color;
+            background: $bg-color;
+            color: $primary-color;
+        }
+    }
+    
+    &.active {
+        background: $primary-color;
+        color: #fff;
+        border-color: $primary-color;
+    }
+}
+
+@media (max-width: $breakpoint-tablet) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+
+    .moderatorInfo {
+        align-items: flex-start;
+        margin-left: 0;
+    }
+
+    .periodFilter {
+        flex-direction: column;
+        align-items: stretch;
+        gap: $spacing-md;
+    }
+
+    .filterButtons {
+        flex-wrap: wrap;
+    }
+
+    .exportButtons {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .metricsGrid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: $spacing-md;
+    }
+
+    .chartsGrid {
+        grid-template-columns: 1fr;
+        gap: $spacing-md;
+    }
+}
+
+// Мобильные устройства
+@media (max-width: $breakpoint-mobile) {
+    .stats {
+        padding: $spacing-md 0;
+    }
+
+    .header {
+        margin-bottom: $spacing-lg;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .moderatorName {
+        font-size: 16px;
+    }
+
+    .moderatorRole {
+        font-size: 13px;
+    }
+
+    .periodFilter {
+        margin-bottom: $spacing-lg;
+    }
+
+    .filterButtons {
+        width: 100%;
+        flex-direction: column;
+        gap: $spacing-xs;
+    }
+
+    .periodButton {
+        width: 100%;
+        padding: $spacing-md;
+        font-size: 14px;
+    }
+
+    .exportButtons {
+        width: 100%;
+    }
+
+    .metricsGrid {
+        grid-template-columns: 1fr;
+        gap: $spacing-md;
+        margin-bottom: $spacing-lg;
+    }
+
+    .chartsGrid {
+        grid-template-columns: 1fr;
+        gap: $spacing-md;
+        margin-bottom: $spacing-lg;
+    }
+
+    .categoryChart {
+        margin-top: $spacing-md;
+    }
 }
 

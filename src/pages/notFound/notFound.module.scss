@@ -1,0 +1,95 @@
+@use '../../styles/variables' as *;
+
+.notFound {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-xl 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: $spacing-xl;
+    gap: $spacing-lg;
+}
+
+.number {
+    font-size: 120px;
+    font-weight: 700;
+    color: $primary-color;
+    line-height: 1;
+    margin-bottom: $spacing-md;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 600;
+    color: $text-color;
+    margin: 0;
+}
+
+.message {
+    font-size: 18px;
+    color: $secondary-color;
+    margin: 0;
+    max-width: 500px;
+}
+
+@media (max-width: $breakpoint-tablet) {
+    .notFound {
+        min-height: 50vh;
+        padding: $spacing-lg 0;
+    }
+
+    .content {
+        padding: $spacing-lg;
+        gap: $spacing-md;
+    }
+
+    .number {
+        font-size: 80px;
+        margin-bottom: $spacing-sm;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .message {
+        font-size: 16px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .notFound {
+        min-height: 50vh;
+        padding: $spacing-md 0;
+    }
+
+    .content {
+        padding: $spacing-md;
+        gap: $spacing-md;
+    }
+
+    .number {
+        font-size: 64px;
+        margin-bottom: $spacing-xs;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .message {
+        font-size: 14px;
+        max-width: 100%;
+        line-height: 1.5;
+    }
+}
+

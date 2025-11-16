@@ -68,27 +68,29 @@ function ModerationModal({
         }
     };
 
+    const isMobile = window.innerWidth <= 768;
+    
     const modalVariants = {
         hidden: { 
             opacity: 0,
-            scale: 0.9,
-            y: 20
+            scale: isMobile ? 1 : 0.9,
+            y: isMobile ? 100 : 20
         },
         visible: { 
             opacity: 1,
             scale: 1,
             y: 0,
             transition: {
-                type: "spring",
-                damping: 25,
-                stiffness: 300,
+                type: "spring" as const,
+                damping: isMobile ? 30 : 25,
+                stiffness: isMobile ? 400 : 300,
                 duration: 0.3
             }
         },
         exit: { 
             opacity: 0,
-            scale: 0.9,
-            y: 20,
+            scale: isMobile ? 1 : 0.9,
+            y: isMobile ? 100 : 20,
             transition: { duration: 0.2 }
         }
     };

@@ -16,6 +16,11 @@
     justify-content: center;
     z-index: 1000;
     padding: $spacing-md;
+
+    @media (max-width: $breakpoint-mobile) {
+        padding: 0;
+        align-items: flex-end;
+    }
 }
 
 .modal {
@@ -23,6 +28,13 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: $breakpoint-mobile) {
+        max-width: 100%;
+        max-height: 90vh;
+        border-radius: $border-radius-md $border-radius-md 0 0;
+        overflow-y: auto;
+    }
 }
 
 .header {
@@ -40,6 +52,10 @@
     font-weight: 600;
     color: $text-color;
     margin: 0;
+
+    @media (max-width: $breakpoint-mobile) {
+        font-size: 18px;
+    }
 }
 
 .closeButton {
@@ -57,9 +73,17 @@
     border-radius: $border-radius-sm;
     transition: all 0.2s;
 
-    &:hover {
-        background-color: $border-color-light;
-        color: $text-color;
+    @media (max-width: $breakpoint-mobile) {
+        font-size: 24px;
+        width: 28px;
+        height: 28px;
+    }
+
+    @media (min-width: $breakpoint-wide) {
+        &:hover {
+            background-color: $border-color-light;
+            color: $text-color;
+        }
     }
 }
 
@@ -83,6 +107,10 @@
     display: flex;
     align-items: center;
     gap: $spacing-xs;
+
+    @media (max-width: $breakpoint-mobile) {
+        font-size: 13px;
+    }
 }
 
 .required {
@@ -107,9 +135,16 @@
     font-size: 14px;
     color: $text-color;
 
-    &:hover {
-        background-color: $border-color-light;
-        border-color: $primary-color;
+    @media (max-width: $breakpoint-mobile) {
+        padding: $spacing-xs $spacing-sm;
+        font-size: 13px;
+    }
+
+    @media (min-width: $breakpoint-wide) {
+        &:hover {
+            background-color: $border-color-light;
+            border-color: $primary-color;
+        }
     }
 
     input[type="radio"] {
@@ -131,23 +166,40 @@
 
 .commentInput {
     width: 100%;
-    padding: $spacing-md;
+    padding: $spacing-sm $spacing-md;
     border: 1px solid $border-color;
     border-radius: $border-radius-md;
     font-size: 14px;
-    font-family: inherit;
+    font-family: 'Montserrat', sans-serif;
     color: $text-color;
     background-color: $bg-color;
     resize: vertical;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
+    min-height: 100px;
+
+    @media (max-width: $breakpoint-mobile) {
+        padding: $spacing-xs $spacing-sm;
+        font-size: 13px;
+        min-height: 80px;
+    }
+
+    @media (min-width: $breakpoint-wide) {
+        &:hover {
+            border-color: $primary-color;
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+        }
+    }
 
     &:focus {
         outline: none;
         border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
     }
 
-    &::placeholder {
-        color: $secondary-color;
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background-color: $border-color-light;
     }
 }
 
@@ -159,5 +211,11 @@
     border-top: 1px solid $border-color;
     flex-shrink: 0;
     margin-top: auto;
+
+    @media (max-width: $breakpoint-mobile) {
+        flex-direction: column-reverse;
+        gap: $spacing-sm;
+        padding-top: $spacing-sm;
+    }
 }
 

@@ -31,8 +31,8 @@ export interface Ad {
     price: number;
     category: string;
     categoryId: number;
-    status: string;
-    priority: string;
+    status: 'pending' | 'approved' | 'rejected' | 'draft';
+    priority: 'normal' | 'urgent';
     createdAt: string;
     updatedAt: string;
     images: string[];

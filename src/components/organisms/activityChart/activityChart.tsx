@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import Panel from '../../atoms/panel/panel';
 import type { ActivityData } from '../../../types/moderator';
@@ -9,6 +10,18 @@ interface ActivityChartProps {
 }
 
 function ActivityChart({ data }: ActivityChartProps) {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 480);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     const formattedData = data.map((item) => ({
         ...item,
         dateLabel: formatDateShort(item.date),
@@ -18,9 +31,9 @@ function ActivityChart({ data }: ActivityChartProps) {
     return (
         <Panel>
             <div className={styles.chartContainer}>
-                <h3 className={styles.title}>Активность по дням (последняя неделя)</h3>
-                <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={formattedData}>
+                <h3 className={styles.title}>Активность по дням</h3>
+                <ResponsiveContainer width="100%" height={isMobile ? 250 : 300}>
+                    <BarChart data={formattedData} margin={{ left: -20, right: 20, top: 5, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="dateLabel" />
                         <YAxis />

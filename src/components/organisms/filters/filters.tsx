@@ -8,7 +8,6 @@ import {
     resetFilters,
 } from '../../../features/filters/filtersSlice';
 import type { StatusFilter } from '../../../types/filters';
-import { useGetAdsQuery } from '../../../features/api/apiSlice';
 import { extractUniqueCategories } from '../../../features/api/selectors';
 import Button from '../../atoms/button/button';
 import SearchInput from '../../molecules/searchInput/searchInput';
@@ -21,15 +20,15 @@ const STATUS_OPTIONS: { value: StatusFilter; label: string }[] = [
     { value: 'pending', label: 'Ожидает' },
     { value: 'approved', label: 'Одобрено' },
     { value: 'rejected', label: 'Отклонено' },
-    { value: 'draft', label: 'Черновик' },
+    { value: 'draft', label: 'На доработке' },
 ];
 
 function Filters() {
     const dispatch = useAppDispatch();
     const filters = useAppSelector((state) => state.filters);
+    const ads = useAppSelector((state) => state.ads.ads);
     
-    const { data: allAdsData } = useGetAdsQuery({ page: 1 });
-    const categories = allAdsData?.ads ? extractUniqueCategories(allAdsData.ads) : [];
+    const categories = ads.length > 0 ? extractUniqueCategories(ads) : [];
     const categoryOptions = categories.map((cat) => ({
         value: cat.id,
         label: cat.name,

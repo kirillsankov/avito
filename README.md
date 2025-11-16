@@ -1,73 +1,84 @@
-# React + TypeScript + Vite
+# Система модерации объявлений Avito
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-приложение для модерации объявлений на платформе Avito. Проект состоит из фронтенда (React + TypeScript) и бэкенда (Node.js + Express).
 
-Currently, two official plugins are available:
+## Требования
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Docker версии 20.10 или выше
+- Docker Compose версии 2.0 или выше
 
-## React Compiler
+## Запуск проекта через Docker Compose
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Клонирование репозитория
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone <repository-url>
+cd avito
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Запуск проекта
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Для запуска всего проекта (фронтенд + бэкенд) одной командой:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+docker-compose up --build
 ```
+
+Флаг `--build` необходим при первом запуске для сборки образов. При последующих запусках можно использовать:
+
+```bash
+docker-compose up
+```
+
+### 3. Доступ к приложению
+
+После успешного запуска:
+
+- **Frontend**: http://localhost/list
+- **Backend API**: http://localhost:3001
+
+### 4. Остановка проекта
+
+Для остановки контейнеров:
+
+```bash
+docker-compose down
+```
+
+Для остановки и удаления всех данных (volumes):
+
+```bash
+docker-compose down -v
+```
+
+## Обоснование выбора технологий
+
+### Recharts
+- Простая и гибкая библиотека для построения графиков на основе React и D3
+- Хорошая производительность и адаптивность графиков
+- Поддержка различных типов диаграмм (линейные, столбчатые, круговые)
+- Легкая кастомизация стилей и анимаций
+
+### Framer Motion
+- Мощная библиотека для создания плавных анимаций в React
+- Декларативный API, интегрированный с React lifecycle
+- Поддержка жестов, анимаций при появлении/исчезновении элементов
+- Оптимизированная производительность анимаций
+
+### jsPDF
+- Библиотека для генерации PDF документов на клиенте
+- Не требует серверной обработки - PDF создается в браузере
+- Поддержка кастомных шрифтов и стилей
+- Легкая интеграция с React для экспорта данных
+
+### Swiper
+- Современная библиотека для создания слайдеров и каруселей
+- Поддержка touch-жестов для мобильных устройств
+- Высокая производительность и плавная анимация
+- Гибкая настройка и множество опций конфигурации
+
+### SCSS/Sass
+- Препроцессор CSS с поддержкой переменных, миксинов и вложенности
+- Модульная организация стилей через CSS Modules
+- Упрощение поддержки и масштабирования стилей
+- Поддержка темной темы через переменные

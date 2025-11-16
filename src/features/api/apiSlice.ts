@@ -11,7 +11,7 @@ export const adsApi = createApi({
         {
         getAds: builder.query<AdsResponse, GetAdsParams>({
             query: (params) => {
-                const { page = 1, status, categoryId, minPrice, maxPrice, search } = params
+                const { page = 1, status, categoryId, minPrice, maxPrice, search, sortBy, sortOrder } = params
                 const queryParams = new URLSearchParams()
                 
                 queryParams.append('page', page.toString())
@@ -34,6 +34,14 @@ export const adsApi = createApi({
                 
                 if (search && search.trim()) {
                     queryParams.append('search', search.trim())
+                }
+                
+                if (sortBy) {
+                    queryParams.append('sortBy', sortBy)
+                }
+                
+                if (sortOrder) {
+                    queryParams.append('sortOrder', sortOrder)
                 }
                 
                 return `/ads?${queryParams.toString()}`

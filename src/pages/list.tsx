@@ -1,11 +1,17 @@
 import ListCard from "../components/organisms/listCard/listCard";
 import Pagination from "../components/organisms/pagination/pagination";
 import Filters from "../components/organisms/filters/filters";
-import { useEffect, useRef } from "react";
+import BulkActions from "../components/organisms/bulkActions/bulkActions";
+import SortSelect from "../components/molecules/sortSelect/sortSelect";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setCurrentPage } from "../features/page/pageSlice";
 import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { filtersToUrlParams, urlParamsToFilters } from "../utils/filtersUrl";
+import { setStatus, setCategoryId, setMinPrice, setMaxPrice, setSearch, setSortBy, setSortOrder } from "../features/filters/filtersSlice";
+import { useMetaTags } from "../hooks/useMetaTags";
+import styles from './list.module.scss';
 
 const pageVariants = {
     initial: {
@@ -30,24 +36,72 @@ const pageTransition = {
 
 function List() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const filters = useAppSelector((state) => state.filters);
   const prevFiltersRef = useRef(filters);
+  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const isInitializedRef = useRef(false);
+  const [refetchFn, setRefetchFn] = useState<(() => void) | null>(null);
+
+  useMetaTags({
+    title: 'Список объявлений - Avito Модерация',
+    description: 'Просмотр и модерация объявлений. Фильтрация по категориям, статусу, цене и поиск по названию.'
+  });
 
   useEffect(() => {
+    if (isInitializedRef.current) return;
+    
+    const urlFilters = urlParamsToFilters(searchParams);
+    if (Object.keys(urlFilters).length > 0) {
+      if (urlFilters.status) {
+        dispatch(setStatus(urlFilters.status));
+      }
+      if (urlFilters.categoryId !== undefined) {
+        dispatch(setCategoryId(urlFilters.categoryId));
+      }
+      if (urlFilters.minPrice !== undefined) {
+        dispatch(setMinPrice(urlFilters.minPrice));
+      }
+      if (urlFilters.maxPrice !== undefined) {
+        dispatch(setMaxPrice(urlFilters.maxPrice));
+      }
+      if (urlFilters.search !== undefined) {
+        dispatch(setSearch(urlFilters.search));
+      }
+      if (urlFilters.sortBy) {
+        dispatch(setSortBy(urlFilters.sortBy));
+      }
+      if (urlFilters.sortOrder) {
+        dispatch(setSortOrder(urlFilters.sortOrder));
+      }
+    }
+    isInitializedRef.current = true;
+  }, [searchParams, dispatch]);
+
+  useEffect(() => {
+    if (!isInitializedRef.current) return;
+    
     const prevFilters = prevFiltersRef.current;
     const filtersChanged =
       JSON.stringify(prevFilters.status) !== JSON.stringify(filters.status) ||
       prevFilters.categoryId !== filters.categoryId ||
       prevFilters.minPrice !== filters.minPrice ||
       prevFilters.maxPrice !== filters.maxPrice ||
-      prevFilters.search !== filters.search;
+      prevFilters.search !== filters.search ||
+      prevFilters.sortBy !== filters.sortBy ||
+      prevFilters.sortOrder !== filters.sortOrder;
 
     if (filtersChanged) {
       dispatch(setCurrentPage(1));
       prevFiltersRef.current = filters;
+      
+      const params = filtersToUrlParams(filters);
+      navigate(`/list?${params.toString()}`, { replace: true });
     }
-  }, [filters, dispatch]);
+  }, [filters, dispatch, navigate]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -82,8 +136,18 @@ function List() {
     >
       <div className="container">
         <Filters />
-        <ListCard />
-        <Pagination />
+        <div className={styles.sortSection}>
+          <SortSelect />
+        </div>
+        <BulkActions onRefetch={refetchFn || undefined} />
+        <ListCard 
+          onErrorChange={setHasError}
+          onLoadingChange={setIsLoading}
+          onRefetchReady={(refetch) => {
+            setRefetchFn(() => refetch);
+          }}
+        />
+        {!hasError && !isLoading && <Pagination />}
       </div>
     </motion.section>
   );

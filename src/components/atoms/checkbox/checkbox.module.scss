@@ -8,8 +8,10 @@
     font-size: 14px;
     user-select: none;
 
-    &:hover {
-        color: $primary-color;
+    @media (min-width: $breakpoint-wide) {
+        &:hover {
+            color: $primary-color;
+        }
     }
 }
 
